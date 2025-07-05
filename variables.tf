@@ -32,3 +32,8 @@ variable "kubernetes_version" {
   description = "EKS Kubernetes version"
   type        = string
 }
+
+variable "environment" {
+  description = "Environment label (e.g. dev, staging)"
+  type        = string
+}

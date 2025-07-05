@@ -1,23 +1,34 @@
 output "vpc_id" {
-  value = aws_vpc.main.id
+  description = "The ID of the VPC"
+  value       = aws_vpc.main.id
 }
 
 output "public_subnet_id" {
-  value = aws_subnet.public.id
+  description = "The ID of the public subnet"
+  value       = aws_subnet.public.id
 }
 
 output "private_subnet_id" {
-  value = aws_subnet.private.id
+  description = "The ID of the private subnet"
+  value       = aws_subnet.private.id
 }
 
 output "security_group_id" {
-  value = aws_security_group.default_sg.id
+  description = "The ID of the default security group"
+  value       = aws_security_group.default_sg.id
 }
 
-output "eks_cluster_name" {
-  value = aws_eks_cluster.eks.name
+output "eks_cluster_id" {
+  description = "The name of the EKS cluster"
+  value       = module.eks.cluster_id
 }
 
 output "eks_cluster_endpoint" {
-  value = aws_eks_cluster.eks.endpoint
+  description = "The endpoint URL of the EKS cluster"
+  value       = module.eks.cluster_endpoint
+}
+
+output "eks_node_group_role_arn" {
+  description = "The IAM role ARN for the EKS node group"
+  value       = module.eks.eks_managed_node_groups["default"].iam_role_arn
 }

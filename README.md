@@ -1,55 +1,93 @@
-# Terraform AWS Networking + EKS Module
+# Terraform AWS Networking and EKS Cluster
 
-This Terraform project provisions foundational AWS infrastructure and an Amazon EKS cluster using production-ready best practices. It supports workloads such as containerized apps, microservices, and internal tools running in Kubernetes.
+This repository contains Terraform code that provisions AWS network infrastructure and an Amazon EKS (Elastic Kubernetes Service) cluster in a production-style configuration. It is designed for demonstration, development, and DevOps interview purposes.
 
-## Features
+## Overview
 
-- VPC with DNS support
-- Public and private subnets
-- Internet Gateway (IGW) and NAT Gateway
-- Route tables and associations
-- Default security group with SSH access
-- EKS control plane and managed node group
-- IAM roles and policies for EKS components
-- Parameterized configuration and clean outputs
-- Remote state backend configuration (commented out for dry-run)
+This project creates:
+
+- A VPC with DNS support
+- Public and private subnets in a single Availability Zone
+- Internet Gateway and NAT Gateway
+- Route tables for public and private subnets
+- A default security group
+- An EKS cluster using the official `terraform-aws-eks` module
+- Managed node group for worker nodes
+- IAM roles for EKS control plane and nodes
+- Remote backend support via S3 (commented out by default)
+
+## File Structure
+
+```
+terraform-aws-networking/
+├── backend.tf           # Remote state backend config (commented for dry-run)
+├── eks.tf               # EKS module and IAM roles
+├── main.tf              # VPC, subnets, NAT, IGW, security group
+├── outputs.tf           # Terraform outputs
+├── provider.tf          # AWS provider
+├── terraform.tfvars     # Input variable values
+├── variables.tf         # Input variable definitions
+├── .gitignore
+└── README.md
+```
 
 ## Inputs
 
-| Variable              | Description                          | Example            |
-|-----------------------|--------------------------------------|--------------------|
-| `aws_region`          | AWS region                           | `il-central-1`     |
-| `vpc_cidr`            | CIDR for VPC                         | `10.0.0.0/16`      |
-| `public_subnet_cidr`  | CIDR for public subnet               | `10.0.1.0/24`      |
-| `private_subnet_cidr` | CIDR for private subnet              | `10.0.2.0/24`      |
-| `availability_zone`   | Availability Zone                   | `il-central-1a`    |
-| `cluster_name`        | Name of the EKS cluster              | `dev-cluster`      |
-| `kubernetes_version`  | Version of Kubernetes for the cluster| `1.29`             |
+The following input variables are used to configure the infrastructure:
+
+| Variable              | Description                              | Example           |
+|-----------------------|------------------------------------------|-------------------|
+| `aws_region`          | AWS region for deployment                | `il-central-1`    |
+| `vpc_cidr`            | CIDR block for the VPC                   | `10.0.0.0/16`     |
+| `public_subnet_cidr`  | CIDR block for the public subnet         | `10.0.1.0/24`     |
+| `private_subnet_cidr` | CIDR block for the private subnet        | `10.0.2.0/24`     |
+| `availability_zone`   | Availability zone for the subnets        | `il-central-1a`   |
+| `cluster_name`        | Name of the EKS cluster                  | `eks-dev`         |
+| `kubernetes_version`  | Kubernetes version to deploy             | `1.29`            |
+| `environment`         | Environment label for tags (e.g. dev)    | `dev`             |
 
 ## Outputs
 
-- VPC ID
-- Public and private subnet IDs
-- Security Group ID
-- EKS Cluster Name and API Endpoint
+| Output Name              | Description                               |
+|--------------------------|-------------------------------------------|
+| `vpc_id`                 | The ID of the provisioned VPC             |
+| `public_subnet_id`       | The ID of the public subnet               |
+| `private_subnet_id`      | The ID of the private subnet              |
+| `security_group_id`      | The ID of the default security group      |
+| `eks_cluster_id`         | The name of the EKS cluster               |
+| `eks_cluster_endpoint`   | The Kubernetes API server endpoint        |
+| `eks_node_group_role_arn`| The IAM role ARN for the worker nodes     |
 
 ## Usage
 
-Initialize and dry-run:
+Initialize Terraform and review the execution plan:
 
 ```bash
 terraform init
 terraform plan
 ```
 
-## Remote State
+To apply and create the infrastructure:
 
-`backend.tf` is configured for S3 + optional locking, but commented out to allow local dry-run and demonstration. To use remote state:
+```bash
+terraform apply
+```
 
-1. Create an S3 bucket in the desired region
-2. Uncomment `backend.tf`
-3. Run `terraform init` again
+
+
+## Backend Configuration (Optional)
+
+If you want to use remote backend, create the following:
+
+- S3 bucket (e.g. `devops-terraform-state`) in `il-central-1`
+- Optional: enable versioning and encryption
+
+## Tools and Modules Used
+
+- Terraform (≥ v1.5.0)
+- [terraform-aws-eks](https://github.com/terraform-aws-modules/terraform-aws-eks) module
+- AWS provider
 
 ## License
 
-This project is open-source and intended for portfolio demonstrations and practical DevOps infrastructure scenarios.
+This project is for  professional demonstration,. You are free to adapt it for your own use.
