@@ -1,6 +1,6 @@
 # Terraform AWS Networking and EKS Cluster
 
-This repository contains Terraform code that provisions AWS network infrastructure and an Amazon EKS (Elastic Kubernetes Service) cluster in a production-style configuration. It is designed for demonstration, development, and DevOps interview purposes.
+This repository contains Terraform code that provisions AWS network infrastructure and an Amazon EKS (Elastic Kubernetes Service) cluster in a production-style configuration. It is designed for demonstration purposes.
 
 ## Overview
 
@@ -90,4 +90,4 @@ If you want to use remote backend, create the following:
 
 ## License
 
-This project is for  professional demonstration,. You are free to adapt it for your own use.
+This project is for  professional demonstration, You are free to adapt it for your own use.
