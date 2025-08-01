@@ -1,39 +1,39 @@
 variable "aws_region" {
-  description = "AWS region for deployment"
-  type        = string
+  description = "the region"
+  type= string
 }
+
 
 variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
+  description = "The VPC cidr range"
   type        = string
 }
+
 
 variable "public_subnet_cidr" {
-  description = "CIDR for public subnet"
+  description = "The public subnet cidr"
   type        = string
 }
+
+variable "availability_zone1" {
+  description = "The availability zone"
+  type        = string
+}
+
+variable "availability_zone2" {
+  description = "The availability zone"
+  type        = string
+}
+
 
 variable "private_subnet_cidr" {
-  description = "CIDR for private subnet"
+  description = "The private subnet cidr"
   type        = string
 }
 
-variable "availability_zone" {
-  description = "AZ for the subnet"
-  type        = string
-}
-
-variable "cluster_name" {
-  description = "EKS cluster name"
-  type        = string
-}
-
-variable "kubernetes_version" {
-  description = "EKS Kubernetes version"
-  type        = string
-}
-
-variable "environment" {
-  description = "Environment label (e.g. dev, staging)"
-  type        = string
+variable "ec2_instances" {
+  type = map(object({
+    ami = string
+    instance_type = string
+  }))
 }
